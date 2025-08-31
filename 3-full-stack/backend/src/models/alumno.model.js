@@ -10,7 +10,8 @@ const alumnoSchema = new mongoose.Schema({
         type: Number,
         require: true,
         trim: true
-    }, grupo:{
+    }, 
+    grupo:{
         type: String,
         require: true,
         trim: true
