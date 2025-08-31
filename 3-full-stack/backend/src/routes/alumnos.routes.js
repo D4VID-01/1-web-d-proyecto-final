@@ -23,8 +23,8 @@ router.put('/:id', async (req, res) => {
 });
 
 // Eliminar alumno
-router.delete('/', async (req, res) => {
-    await alumnoModel.findByIdDelete(req.params.id);
+router.delete('/:id', async (req, res) => {
+    await alumnoModel.findByIdAndDelete(req.params.id);
     res.json({mensaje: "Alumno eliminado"});
 });
 

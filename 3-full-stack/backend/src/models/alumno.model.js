@@ -20,4 +20,4 @@ const alumnoSchema = new mongoose.Schema({
     timestamps: true
 });
 
-export default mongoose.model('Alumno', AlumnoSchema);
+export default mongoose.model('alumnoModel', alumnoSchema);
