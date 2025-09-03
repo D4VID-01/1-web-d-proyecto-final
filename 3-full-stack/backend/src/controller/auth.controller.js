@@ -44,6 +44,41 @@ export const register = async (req, res) => {
     }
 }
 
-export const login = (req, res) => {
-    res.send("Logueando...");
+
+export const login = async (req, res) => {
+
+    const { email, password } = req.body;
+
+    try {
+
+        const userFound = await User.findOne({email});
+        if(!userFound) return res.status(400).json({message: "Usuario no encontrado"})
+            
+        const isMatch = await bcrypt.compare(password, userFound.password);
+        if(!isMatch) return res.status(400).json({message: "Contraseña incorrecta"})
+
+        jwt.sign({
+            id: userFound.id
+        },
+            process.env.SECRET_KEY,
+            {
+                expiresIn: "1d"
+            },
+            (err, token) => {
+                if (err) console.log(err);
+                res.cookie("token", token);
+
+                res.json({
+                    id: userFound._id,
+                    username: userFound.username,
+                    email: userFound.email,
+                    createdAt: userFound.createdAt,
+                    updatedAt: userFound.updatedAt
+                });
+            }
+        )
+
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
 }
